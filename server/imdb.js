@@ -42,21 +42,13 @@ const getMovie = async link => {
 
     return {
       link,
-      'id': $('meta[property="pageId"]').attr('content'),
       'metascore': Number($('.metacriticScore span').text()),
-      'poster': $('.poster img').attr('src'),
-      'rating': Number($('span[itemprop="ratingValue"]').text()),
       'synopsis': $('.summary_text')
         .text()
         .trim(),
       'title': $('.title_wrapper h1')
         .text()
         .trim(),
-      'votes': Number(
-        $('span[itemprop="ratingCount"]')
-          .text()
-          .replace(',', '.')
-      ),
       'year': Number($('#titleYear a').text())
     };
   } catch (error) {
