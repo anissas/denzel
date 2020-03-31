@@ -1,4 +1,4 @@
 {
-  "version": 2,
-  "alias": "esilv-denzel"
+  "name": "my-mongodb-api",
+  "version": 2
 }

@@ -38,19 +38,30 @@ const getMovie = async link => {
   try {
     const response = await axios(link);
     const {data} = response;
-    const $ = cheerio.load(data);
-
-    return {
+    const $ = cheerio.load(data);   
+    const movie = {
       link,
       'metascore': Number($('.metacriticScore span').text()),
+      'poster': $('.poster img').attr('src'),
+      'rating': Number($('span[itemprop="ratingValue"]').text()),
       'synopsis': $('.summary_text')
         .text()
         .trim(),
       'title': $('.title_wrapper h1')
         .text()
         .trim(),
+         'votes': Number(
+        $('span[itemprop="ratingCount"]')
+          .text()
+          .replace(',', '.')
+      ),
       'year': Number($('#titleYear a').text())
+
     };
+    if(movie.poster == null){
+      movie.poster = "https://i.ebayimg.com/images/g/9tUAAOSwcOJbbdFK/s-l640.jpg"
+    }
+    return movie;
   } catch (error) {
     console.error(error);
     return {};

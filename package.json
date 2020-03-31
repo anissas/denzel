@@ -1,0 +1,30 @@
+{
+  "name": "denzel",
+  "version": "1.0.0",
+  "description": "> The must-watch Denzel's movies",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/.bin/netlify-lambda serve src",
+    "build": "./node_modules/.bin/netlify-lambda build src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anissas/denzel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anissas/denzel/issues"
+  },
+  "homepage": "https://github.com/anissas/denzel#readme",
+  "dependencies": {
+    "@ngtools/webpack": "^1.10.2",
+    "express": "^4.17.1",
+    "netlify-lambda": "^1.6.3",
+    "serverless-http": "^2.3.2",
+    "webpack": "^3.11.0",
+    "webpack-cli": "^3.3.11"
+  }
+}

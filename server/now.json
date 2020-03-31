@@ -1,0 +1,26 @@
+{
+	"version":2,
+	"builds":[{"src":"./index.js", "use":"@now/node-server"}],
+	"routes":[
+		{
+			"src":"/movies",
+			"dest":"/"
+		},
+		{
+			"src":"/movie/(.*)",
+			"dest":"/"
+		},
+		{
+			"src":"/mustWatch/movie",
+			"dest":"/"
+		},
+		{
+			"src":"/movies/search",
+			"dest":"/"
+		},
+		{
+			"src":"/post/movie/(.*)",
+			"dest":"/"
+		}
+	]
+}

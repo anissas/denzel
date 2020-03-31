@@ -24,8 +24,6 @@ module.exports.insertData = async(actor)=>{
         return movies;
     } catch (e) {
         console.error(e);
-    } finally {
-        await client.close();
     }
 }
 
@@ -43,24 +41,6 @@ async function createListing(client, actor){
 
 
 /**
- * Find a random must watch movie(with metascore > 70) in the DB
-*/
-module.exports.rndMustWatchMovie = async()=>{
- try {
-        // Connect to the MongoDB cluster
-        await client.connect();
-        var n = await client.db("myDB").collection("test").countDocuments({"metascore":{$gt:70}});
-        var mustWatchMovies = await client.db("myDB").collection("test").find({"metascore":{$gt:70}});
-        var rnd = Math.floor(Math.random() * (n));
-        movie = await mustWatchMovies.toArray();
-        console.log(movie[rnd]);
-        return movie[rnd];
-     } catch (e) {
-        console.error(e);
-    } 
-}
-
-/**
  * Find a movie by ID in the DB
  * @param  {Int} id
 */
@@ -74,6 +54,26 @@ module.exports.findMovieByID = async(id)=>{
         await movie.push(query);
         return movie;
     } catch (e) {
+        console.error(e);
+    } 
+}
+
+/**
+ * Find a random must watch movie(with metascore > 70) in the DB
+*/
+module.exports.rndMustWatchMovie = async()=>{
+ try {
+        themovie = []    
+        // Connect to the MongoDB cluster
+        await client.connect();
+        var n = await client.db("myDB").collection("test").countDocuments({"metascore":{$gt:70}});
+        var mustWatchMovies = await client.db("myDB").collection("test").find({"metascore":{$gt:70}});
+        var rnd = Math.floor(Math.random() * (n));
+        movie = await mustWatchMovies.toArray();
+        console.log(movie[rnd]);
+        await themovie.push(movie[rnd]);
+        return themovie;
+     } catch (e) {
         console.error(e);
     } 
 }
@@ -108,16 +108,21 @@ module.exports.findMovieByMetascore = async(limit, metascore)=>{
 module.exports.updateMovieByID = async(id, da, rev)=>{
     try {
         // Connect to the MongoDB cluster
+        movie = []
         await client.connect();
         var objectId = new ObjectID(id);
-        var query = await client.db("myDB").collection("test").aggregate([{ $match: { "_id": objectId } }, { $addFields:{"date": da, "review": rev}}]);
-        const movie = await query.toArray();
+        //var query = await client.db("myDB").collection("test").aggregate([{ $match: { "_id": objectId } }, { $addFields:{"date": da, "review": rev}}]);
+        var query = await client.db("myDB").collection("test").findOneAndUpdate(
+                                                                               { _id : objectId },
+                                                                               [ { $set: {"date": da, "review": rev} }],  // The $set stage is an alias for ``$addFields`` stage
+                                                                               { returnNewDocument: true }
+                                                                            );
+        await movie.push(query);
         return movie;
     } catch (e) {
         console.error(e);
     } 
 }
-
 
 module.exports.find = async()=>{
     try {
@@ -130,3 +135,4 @@ module.exports.find = async()=>{
         console.error(e);
     } 
 }
+

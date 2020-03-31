@@ -4,7 +4,6 @@ const helmet = require('helmet');
 const {PORT} = require('./constants');
 const mongoose = require('mongoose');
 const data = require('./db.js');
-
 const app = express(); 
 module.exports = app;
 app.use(require('body-parser').json());
@@ -13,7 +12,13 @@ app.use(helmet());
 const rp = require('request-promise');
 app.options('*', cors());
 
-let port = 4000;
+let port = 3000;
+
+
+app.get("/", async(request, response) =>{
+
+	response.json({coucou:'test'}); 
+});
 
 app.get("/movies", async(request, response) =>{
 	const movies = await data.find();
@@ -44,9 +49,9 @@ app.get("/movie/:id", async(request, response) =>{
 /**
  * Fetch a random must-watch movie.
 */ 
-app.get("/movie", async(request, response) =>{
+app.get("/mustWatch/movie", async(request, response) =>{
 	const movie = await data.rndMustWatchMovie();
-
+	console.log(movie);
 	response.json(movie); 
 });
 
@@ -72,7 +77,7 @@ app.get("/movies/search", async(request, response) =>{
 /**
  * Save a watched date and a review.
 */ 
-app.post("/movies/:id", async(request, response) =>{
+app.post("/post/movie/:id", async(request, response) =>{
 	const itemId = request.params.id;
 	const date = request.body.date; 
     const review = request.body.review;

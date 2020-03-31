@@ -1,6 +1,10 @@
 {
   "name": "denzel",
   "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
   "description": "The must-watch Denzel's movies",
   "dependencies": {
     "apollo-server-express": "^2.11.0",
@@ -19,5 +23,7 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
-  }
+  },
+  "author": "anissa",
+  "license": "ISC"
 }
